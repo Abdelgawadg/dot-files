@@ -1,0 +1,118 @@
+# tmux notes
+ - `tmux new -s {name}`
+	 - to start the session
+***
+## tmux controls
+
+- `ctrl + r `
+	- search through command history
+
+- `ctrl + space`  or  `ctrl + p`
+	- prefix key
+	- only need to press and then the next key is the "modified" version
+	- press it again to get out of the "modified" next key
+	- is `ctrl + b` by default
+
+- `prefix then c`
+	- store the tab in background/create a new tab
+	- current tab is the one with the star by it
+	- will create a new tab to go to
+
+- `prefix then {number}`
+	- switches to tab with the number
+
+- `exit`
+	- in the command line to quit out of the shell
+
+- `prefix then ,`
+	- rename the tab
+
+
+- `prefix then v`
+	- split the terminal vertical
+- `prefix then h`
+	- split the terminal horizontal
+- `prefix then arrow key`
+	- to move around the splits
+	- the current active split has dull green lines around it
+	- `exit` to get out of the split 
+- `prefix then shift + [`  and `prefix then shift + ]` 
+	- moves tabs around
+- `prefix then space` 
+	- changes the layout of the tabs
+	
+
+- `prefix then [`
+	- enter search/copy mode
+	- makes it easier to read long outputs
+	- can tell by the line number thing in top right
+	- `pageup` and `pagedn` to go up and down full screens
+	- `ctrl + c`  to exit this mode
+	- `?`  (`shift + /`) to find up and `/`  find down
+		- `shift + /` then type "red" to jump to top of output 
+	- hit  `space` to start selecting from current position then hit  `enter`  to save and then `prefix then ]` to use
+
+- `ctrl + a`
+	- go to the beginning of the line
+- `ctrl + e` 
+	- go to the end of the line
+- `ctrl + arrow key`
+	- go in direction word by word
+
+- `prefix then ?` aka `prefix then shift + /`
+	- pulls up the ? menu
+
+- `prefix then t`
+	- puts the time in the command window
+
+***
+## tmux commands
+- `tmux new-session -s {name}`
+	- create a new session
+
+- `tmux list-sessions`
+	- to see all current sessions of tmux
+
+- `tmux attach-session {session name}`
+	- to reattach to a session
+
+- `tmux kill-session -t {session name}`
+	- kill the session with the name specified
+
+- `tmux kill-server`
+	- to kill every session of tmux running
+
+***
+## Other notes
+- maybe smart to use this on server as an alt to screen
+
+
+
+***
+## .tmux.conf
+```bash
+
+#rebind prefix key
+unbind C-b
+set -g prefix C-Space
+set -g prefix2 C-p
+
+#allow mouse usage
+#set -g mouse on
+
+#rebind splitting the terminal
+unbind v
+unbind h
+unbind % # Split vertically
+unbind '"' # Split horizontally
+bind v split-window -h -c "#{pane_current_path}"
+bind h split-window -v -c "#{pane_current_path}"
+
+#qol stuff
+set -g history-limit 100000
+set -g allow-rename off
+
+#set search mode to vi
+set-window-option -g mode-keys vi
+
+```
